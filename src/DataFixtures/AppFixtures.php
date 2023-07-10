@@ -3,8 +3,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Book;
-use App\Entity\Author;
+use App\Entity\Medecin;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -12,25 +11,17 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-            $listAuthor = [];
-            for ($i = 0; $i < 10; $i++) {
+            $listMedecin = [];
+            for ($i = 0; $i < 5; $i++) {
                 // Création de l'auteur lui-même.
-                $author = new Author();
-                $author->setFirstName("Prénom " . $i);
-                $author->setLastName("Nom " . $i);
-                $manager->persist($author);
+                $medecin = new Medecin();
+                $medecin->setNom("Nom " . $i);
+                $medecin->setNbrDeJours($i);
+                $medecin ->setTauxJournalier($i);
+                $manager->persist($medecin);
                 // On sauvegarde l'auteur créé dans un tableau.
-                $listAuthor[] = $author;
+                $listMedecin[] = $medecin;
            }
-
-           for ($i = 0; $i < 20; $i++) {
-                $book = new Book();
-                $book->setTitle("Titre " . $i);
-                // On lie le livre à un auteur pris au hasard dans le tableau des auteurs.
-                
-                $book->setAuthor($listAuthor[array_rand($listAuthor)]);
-                $manager->persist($book);
-            }
 
         $manager->flush();
     }
